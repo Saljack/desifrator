@@ -27,11 +27,11 @@ public class Desifrovani {
     }
 
     /**
-     * Otestovano pocita IC
+     * spocita IC
      * @param str - text z ktereho se ma IC vypocitat
      * @return IC
      */
-    public double IC(String str) {
+    public static double IC(String str) {
 
         int[] vyskyt = new int[POCETZNAKU];
         str = str.toUpperCase();

@@ -5,13 +5,9 @@
 package sifry;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.BoxLayout;
@@ -37,11 +33,13 @@ import javax.swing.event.ChangeListener;
 public class MainWindow extends JFrame {
 
     private Graf pnl_graf = null;
-    JSlider sl_posun;
-    JSpinner spn_posun;
-    JSpinner spn_rozdil;
-    JTextArea ta_text;
-    JDialog textDialog;
+    private JSlider sl_posun;
+    private JSpinner spn_posun;
+    private JSpinner spn_rozdil;
+    private JTextArea ta_text;
+    private JDialog textDialog;
+    private JDialog icDialog;
+    private String text;
 
     public MainWindow() {
         initGUI();
@@ -162,9 +160,19 @@ public class MainWindow extends JFrame {
     private void initMenu() {
         //MENU
         JMenuBar menubar = new JMenuBar();
+        //File menu
         JMenu menufile = new JMenu("File");
         JMenuItem mi_loadText = new JMenuItem("Load text");
         menufile.add(mi_loadText);
+
+        JMenuItem mi_IC = new JMenuItem("IC");
+        menufile.add(mi_IC);
+        mi_IC.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                showIC();
+            }
+        });
 
         JMenuItem mi_exit = new JMenuItem("Exit");
         menufile.add(mi_exit);
@@ -213,9 +221,9 @@ public class MainWindow extends JFrame {
         JPanel basic = new JPanel();
         add(basic);
         basic.setLayout(new BoxLayout(basic, BoxLayout.Y_AXIS));
-        double[] abeceda = getPocet();
+//        double[] abeceda = getPocet();
 
-        pnl_graf = new Graf(abeceda);
+        pnl_graf = new Graf();
 
         basic.add(pnl_graf);
 
@@ -267,7 +275,7 @@ public class MainWindow extends JFrame {
 
 
         basic.add(bottom);
-        bottom.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+        bottom.setMaximumSize(new Dimension(Integer.MAX_VALUE, 3));
         initMenu();
     }
 
@@ -299,7 +307,21 @@ public class MainWindow extends JFrame {
 
     private void setText(String str) {
         System.out.println(str);
-        str = str.toUpperCase();
-        pnl_graf.setText(getPocet(str));
+        text = str.toUpperCase();
+        pnl_graf.setText(getPocet(text));
+    }
+
+    private void showIC(){
+        icDialog = new JDialog(this,"IC");
+        icDialog.setSize(300,200);
+        String str = "<html>"
+                + "Text:<br><p>"
+                + text
+                + "</p><br><br><h1>IC: "
+                + Desifrovani.IC(text)
+                + "</h1></html>";
+        JLabel lbl = new JLabel(str);
+        icDialog.add(lbl);
+        icDialog.setVisible(true);
     }
 }
