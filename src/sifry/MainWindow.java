@@ -5,16 +5,13 @@
 package sifry;
 
 import java.awt.Dimension;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -93,6 +90,10 @@ public class MainWindow extends JFrame {
 
     }
 
+    /**
+     *  SEM ZADEJTE VAS TEXT, KTERY SE MA POROVNAT
+     * @return
+     */
     private double[] getPocet() {
         String str = "IKHODRDTALAQBADJRKTCOHKTCOQABQOOSRCOTCKUBCTWCATABQAJSHAQQDABODTWARNKQCOQSAUBCTOQAJSARNKQTCONDVORFODJRTDHOOJKUBCTKLKTCOQALKUTTCOHWCOJTCOYOAQIAHOQKUJSTCOQOWARHAJYARGDMLOTWOOJIUMAJSGDMAJSGDFOGYARJKTTCOFDJBWKUGSCAVONKQBKTTOJAGGALKUTDTLYTCOJAJYCKWCOQSAUBCTOQWKUGSLOPUOOJNKQOGOVOJHKJTCR";
         return getPocet(str);
