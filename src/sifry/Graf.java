@@ -20,7 +20,8 @@ import javax.swing.JPanel;
  */
 public class Graf extends JPanel {
 
-    private int posun = 2;
+    private int posun = 0;
+    //Anglická abeceda zdroj wikipedia
     private double [] abeceda = {8.167, 1.492, 2.782, 4.253, 12.702, 2.228, 2.015, 6.094, 6.966, 0.153,	0.772, 4.025, 2.406, 6.749,
                                 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074};
     private double[] text;
@@ -83,6 +84,11 @@ public class Graf extends JPanel {
      */
     public void setPosun(int posun){
         this.posun = posun;
+        repaint();
+    }
+
+    public void setText(double[] text){
+        this.text = text;
         repaint();
     }
 
