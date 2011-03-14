@@ -69,7 +69,10 @@ public class MainWindow extends JFrame {
         }
 
         for (int i = 0; i < upstr.length(); ++i) {
-            ++abecd[upstr.charAt(i) - 'A'];
+            int znak = upstr.charAt(i) - 'A';
+            if (znak >= 0 && znak < 26) {
+                ++abecd[znak];
+            }
         }
         double percent = getPercent(abecd);
 
@@ -152,7 +155,6 @@ public class MainWindow extends JFrame {
         about.setVisible(true);
 
     }
-
 
     /**
      * initialization menu
@@ -269,16 +271,17 @@ public class MainWindow extends JFrame {
         initMenu();
     }
 
-    private void loadTextDlg(){
+    private void loadTextDlg() {
         textDialog = new JDialog(this, "Input text");
         textDialog.setSize(300, 200);
 
-        ta_text =  new JTextArea();
+        ta_text = new JTextArea();
+        ta_text.setLineWrap(true);
         BorderLayout ll = new BorderLayout();
 
         textDialog.setLayout(ll);
         textDialog.add(new JLabel("Input text:"), BorderLayout.PAGE_START);
-        textDialog.add(ta_text,BorderLayout.CENTER);
+        textDialog.add(ta_text, BorderLayout.CENTER);
 
         JButton btn_setText = new JButton("Set text");
         btn_setText.addActionListener(new ActionListener() {
@@ -294,7 +297,7 @@ public class MainWindow extends JFrame {
         textDialog.setVisible(true);
     }
 
-    private void setText(String str){
+    private void setText(String str) {
         System.out.println(str);
         str = str.toUpperCase();
         pnl_graf.setText(getPocet(str));
