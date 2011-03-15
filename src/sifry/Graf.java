@@ -30,6 +30,7 @@ public class Graf extends JPanel {
 //    double percent = -1;
     final int POCET = 26;
     private double rozdil = 0.5;
+    private boolean alpha = true;
 
     public Graf() {
         vieworiginal = false;
@@ -98,6 +99,11 @@ public class Graf extends JPanel {
         vieworiginal = orig;
     }
 
+    public void showAlphabet(boolean alphabet) {
+        alpha = alphabet;
+        repaint();
+    }
+
     @Override
     public void paint(Graphics g) {
         final int POSUN = 20;//O kolik posunout
@@ -154,14 +160,16 @@ public class Graf extends JPanel {
             while (i < POCET) {
                 g2d.drawLine(start.width, start.height, end.width, end.height);
 
-                //Mozna shoda s pismenem
-                int nad = 12;
-                int pred = 1;
-                for (int zn = 0; zn < abeceda.length; ++zn) {
-                    double roz = Math.abs(abeceda[zn] - text[(i + posun - 1) % POCET]);
-                    if (roz < rozdil) {
-                        g2d.drawString((char) (zn + 'A') + "", end.width, (end.height - nad * pred));
-                        ++pred;
+                if (alpha) {
+                    //Mozna shoda s pismenem
+                    int nad = 12;
+                    int pred = 1;
+                    for (int zn = 0; zn < abeceda.length; ++zn) {
+                        double roz = Math.abs(abeceda[zn] - text[(i + posun - 1) % POCET]);
+                        if (roz < rozdil) {
+                            g2d.drawString((char) (zn + 'A') + "", end.width, (end.height - nad * pred));
+                            ++pred;
+                        }
                     }
                 }
 

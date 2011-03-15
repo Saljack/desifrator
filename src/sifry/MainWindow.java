@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
@@ -32,14 +34,16 @@ import javax.swing.event.ChangeListener;
  */
 public class MainWindow extends JFrame {
 
-    private Graf pnl_graf = null;
+    private Graf pnlGraf = null;
     private JSlider sl_posun;
     private JSpinner spn_posun;
     private JSpinner spn_rozdil;
     private JTextArea ta_text;
     private JDialog textDialog;
     private JDialog icDialog;
+    private JCheckBox chbViewAlpha;
     private String text;
+    private SimplyTab pnlSimply;
 
     public MainWindow() {
         initGUI();
@@ -218,14 +222,20 @@ public class MainWindow extends JFrame {
         setSize(600, 400);
         setMinimumSize(new Dimension(150, 150));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JPanel basic = new JPanel();
-        add(basic);
-        basic.setLayout(new BoxLayout(basic, BoxLayout.Y_AXIS));
+        JTabbedPane tabpane = new JTabbedPane();
+        add(tabpane, BorderLayout.CENTER);
+
+        pnlSimply = new SimplyTab(this);
+
+        JPanel panelGraf = new JPanel();
+        tabpane.add("Graf", panelGraf);
+        tabpane.add("Simply", pnlSimply);
+
+        panelGraf.setLayout(new BorderLayout());
 //        double[] abeceda = getPocet();
 
-        pnl_graf = new Graf();
-
-        basic.add(pnl_graf);
+        pnlGraf = new Graf();
+        panelGraf.add(pnlGraf,BorderLayout.CENTER);
 
 
 
@@ -242,7 +252,7 @@ public class MainWindow extends JFrame {
             public void stateChanged(ChangeEvent e) {
                 int value = sl_posun.getValue();
                 spn_posun.setValue(value);
-                pnl_graf.setPosun(value);
+                pnlGraf.setPosun(value);
 
             }
         });
@@ -254,7 +264,7 @@ public class MainWindow extends JFrame {
             public void stateChanged(ChangeEvent e) {
                 int value = (Integer) spn_posun.getValue();
                 sl_posun.setValue(value);
-                pnl_graf.setPosun(value);
+                pnlGraf.setPosun(value);
             }
         });
         bottom.add(spn_posun);
@@ -264,22 +274,32 @@ public class MainWindow extends JFrame {
         spn_rozdil.addChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {
-                pnl_graf.setRozdil((Double) spn_rozdil.getValue());
+                pnlGraf.setRozdil((Double) spn_rozdil.getValue());
             }
         });
 
 
         bottom.add(spn_rozdil);
 
+        panelGraf.add(bottom,BorderLayout.PAGE_END);
+
+        chbViewAlpha = new JCheckBox("Písmena", true);
+        chbViewAlpha.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                onCheckBox();
+            }
+        });
+
+        bottom.add(chbViewAlpha);
 
 
 
-        basic.add(bottom);
-        bottom.setMaximumSize(new Dimension(Integer.MAX_VALUE, 3));
         initMenu();
     }
 
-    private void loadTextDlg() {
+  
+    public void loadTextDlg() {
         textDialog = new JDialog(this, "Input text");
         textDialog.setSize(300, 200);
 
@@ -297,7 +317,7 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setText(ta_text.getText());
 //                textDialog.setVisible(false);
-                textDialog.dispose();
+                textDialog.setVisible(false);
             }
         });
 
@@ -308,7 +328,8 @@ public class MainWindow extends JFrame {
     private void setText(String str) {
         System.out.println(str);
         text = str.toUpperCase();
-        pnl_graf.setText(getPocet(text));
+        pnlGraf.setText(getPocet(text));
+        pnlSimply.setText(text);
     }
 
     private void showIC(){
@@ -324,4 +345,16 @@ public class MainWindow extends JFrame {
         icDialog.add(lbl);
         icDialog.setVisible(true);
     }
+
+    private void onCheckBox(){
+        if(chbViewAlpha.isSelected()){
+            spn_rozdil.setEnabled(true);
+            pnlGraf.showAlphabet(true);
+        }else{
+            spn_rozdil.setEnabled(false);
+            pnlGraf.showAlphabet(false);
+        }
+
+    }
+
 }

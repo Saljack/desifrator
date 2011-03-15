@@ -16,7 +16,7 @@ public class Desifrovani {
         System.out.println("******************************\nAfinni sifra:");
         for (int a = 0; a < POCETZNAKU; ++a) {
             for (int b = 1; b < POCETZNAKU; ++b) {
-                System.out.println("\n"+a+" " + b + ": ");
+                System.out.println("\n" + a + " " + b + ": ");
 
                 for (int z = 0; z < str.length(); ++z) {
                     char znak = (char) (((a * ((str.charAt(z) - 'A') + b)) % 26) + 'A');
@@ -68,44 +68,49 @@ public class Desifrovani {
         }
     }
 
-    public static void substituceSKlicem(String str, String klic){
+    public static String substituceSKlicem(String str, String klic) {
         int[] abeceda = new int[POCETZNAKU];
         klic = klic.toUpperCase();
         str = str.toUpperCase();
-        for(int i=0; i<POCETZNAKU; ++i){
+        for (int i = 0; i < POCETZNAKU; ++i) {
             abeceda[i] = -1;
         }
         //zapsani klice
-        for(int i = 0; i<klic.length(); ++i){
+        for (int i = 0; i < klic.length(); ++i) {
             int poz = 0;
-            int znak = klic.charAt(i)-'A' ;
-            while(abeceda[poz] != -1){
-                if(abeceda[poz] == znak){
+            int znak = klic.charAt(i) - 'A';
+            while (abeceda[poz] != -1) {
+                if (abeceda[poz] == znak) {
                     break;
                 }
                 ++poz;
             }
-            if(abeceda[poz] == -1){
+            if (abeceda[poz] == -1) {
                 abeceda[poz] = znak;
             }
         }
 
-        for(int i= 0; i < POCETZNAKU; ++i){
+        for (int i = 0; i < POCETZNAKU; ++i) {
             int poz = 0;
-            while(abeceda[poz] != -1){
-                if(abeceda[poz] == i){
+            while (abeceda[poz] != -1) {
+                if (abeceda[poz] == i) {
                     break;
                 }
                 ++poz;
             }
-            if(abeceda[poz] == -1){
+            if (abeceda[poz] == -1) {
                 abeceda[poz] = i;
             }
         }
 
-        for(int i = 0; i< POCETZNAKU;++i){
-            System.out.print((char)(abeceda[i]+'A')+"  ");
-        }
+//        for (int i = 0; i < abeceda.length; ++i) {
+//            System.out.print((char)(abeceda[i]+'A')+" ");
+//        }
 
+        char[] txt = new char[str.length()];
+        for (int i = 0; i < str.length(); ++i) {
+            txt[i] = (char) (abeceda[(str.charAt(i) - 'A')] + 'A');
+        }
+        return new String(txt);
     }
 }
