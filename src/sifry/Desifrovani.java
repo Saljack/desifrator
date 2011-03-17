@@ -68,6 +68,12 @@ public class Desifrovani {
         }
     }
 
+    /**
+     * OPTIMALIZOVAT
+     * @param str
+     * @param klic
+     * @return
+     */
     public static String substituceSKlicem(String str, String klic) {
         int[] abeceda = new int[POCETZNAKU];
         klic = klic.toUpperCase();
@@ -103,13 +109,14 @@ public class Desifrovani {
             }
         }
 
-//        for (int i = 0; i < abeceda.length; ++i) {
-//            System.out.print((char)(abeceda[i]+'A')+" ");
-//        }
+        int[] abeceda2 = new int[abeceda.length];
+        for (int i = 0; i < abeceda.length; ++i) {
+            abeceda2[abeceda[i]] = i;
+        }
 
         char[] txt = new char[str.length()];
         for (int i = 0; i < str.length(); ++i) {
-            txt[i] = (char) (abeceda[(str.charAt(i) - 'A')] + 'A');
+            txt[i] = (char) (abeceda2[(str.charAt(i) - 'A')] + 'A');
         }
         return new String(txt);
     }
