@@ -69,22 +69,38 @@ public class Desifrovani {
     }
 
     /**
-     * OPTIMALIZOVAT
+     * 
      * @param str
      * @param klic
      * @return
      */
     public static String substituceSKlicem(String str, String klic) {
-        int[] abeceda = new int[POCETZNAKU];
-        klic = klic.toUpperCase();
+        int[] abeceda = getPosunutouAbecedu(klic);
         str = str.toUpperCase();
+        
+        char[] txt = new char[str.length()];
+        for (int i = 0; i < str.length(); ++i) {
+            txt[i] = (char) (abeceda[(str.charAt(i) - 'A')] + 'A');
+        }
+        return new String(txt);
+    }
+
+
+    /**
+     * OPTIMALIZOVAT
+     * @param pass
+     * @return posunutou abecedu o pass
+     */
+    public static int[] getPosunutouAbecedu(String pass) {
+        int[] abeceda = new int[POCETZNAKU];
+        pass = pass.toUpperCase();
         for (int i = 0; i < POCETZNAKU; ++i) {
             abeceda[i] = -1;
         }
         //zapsani klice
-        for (int i = 0; i < klic.length(); ++i) {
+        for (int i = 0; i < pass.length(); ++i) {
             int poz = 0;
-            int znak = klic.charAt(i) - 'A';
+            int znak = pass.charAt(i) - 'A';
             while (abeceda[poz] != -1) {
                 if (abeceda[poz] == znak) {
                     break;
@@ -113,11 +129,6 @@ public class Desifrovani {
         for (int i = 0; i < abeceda.length; ++i) {
             abeceda2[abeceda[i]] = i;
         }
-
-        char[] txt = new char[str.length()];
-        for (int i = 0; i < str.length(); ++i) {
-            txt[i] = (char) (abeceda2[(str.charAt(i) - 'A')] + 'A');
-        }
-        return new String(txt);
+        return abeceda2;
     }
 }
